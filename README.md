@@ -27,6 +27,8 @@ Some C++ modules also have the [boost library](https://www.boost.org/) as a depe
 The internet has plenty instructions on how to install boost. The standard `apt-get`
 (Ubuntu) and `brew` (macOS) package managers support install as well.
 
+IMPORTANT NOTE!  HEM_drop.cc (see TIMBER/Framework/include for HEM_drop.h and TIMBER/Framework/src for HEM_drop.cc) is NOT used for the pair production analysis!  Instead, HEM_dropData and HEM_dropMC code is now included in TTmodules.cc, and is used for correcting for HEM in 2018.  During TIMBER setup you will get an error regarding HEM_drop.cc which you can ignore.
+
 ## The RDataFrame Backbone
 TIMBER's speed comes from the use of 
 [ROOT's RDataFrame](https://root.cern/doc/master/classROOT_1_1RDataFrame.html). 
