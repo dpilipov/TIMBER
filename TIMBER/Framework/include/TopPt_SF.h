@@ -1,0 +1,58 @@
+#ifndef _TIMBER_TOPPT_SF
+#define _TIMBER_TOPPT_SF
+#include "common.h"
+#include <iostream>
+#include <string>
+#include <numeric>
+#include <cmath>
+#include <stdbool.h>
+#include <ctime> 
+#include <vector>
+#include <stdio.h>
+
+using namespace ROOT::VecOps;
+using namespace Pythonic;
+
+/** @class TopPt_SF
+ *  @brief C++ class. Handles the top \f$p_T\f$ reweighting value for \f$t\bar{t}\f$ simulation
+ * based on doing gen particle matching. The weight is calculated as 
+ * 
+ * \f[ \sqrt{e^{\alpha - \beta \cdot p_{T}^{\textrm{Gen} t}} \cdot e^{\alpha - \beta \cdot p_{T}^{\textrm{Gen} \bar{t}} }} \f].
+ * 
+ * where \f$\alpha = 0.0615\f$ and \f$\beta = 0.0005\f$. See the eval() function
+ * to calculate the weight plus variations of the \f$\beta\f$ parameter. The \f$\alpha\f$ parameter
+ * is not varied since it would only represent a flat normalization change.
+ * 
+ */
+class TopPt_SF {
+    private:
+
+    public:
+        /**
+         * @brief Construct a new TopPt_weight object. No arguments.
+         * 
+         */
+        TopPt_SF(int year);
+        ~TopPt_SF();
+        /**
+         * @brief Calculate the top \f$p_T\f$ reweighting value for \f$t\bar{t}\f$ simulation
+         * based on doing gen particle matching. Additionally, calculate variations of the top
+         * \f$p_T\f$ weight by varying the \f$\beta\f$ parameter.
+         * The amount of variation can be changed via the scale arguement which is a 
+         * percent change on \f$\beta\f$. There is no corresponding function for \f$\alpha\f$
+         * because the effect is only a flat normalization change.
+         * 
+         * @param GenPart_pdgId NanoAOD branch
+         * @param GenPart_statusFlags NanoAOD branch
+         * @param GenPart_vect Vector of ROOT::Math::PtEtaPhiMVectors (create through hardware::TLvector)
+         * @param jet0 
+         * @param jet1 
+         * @param scale Percent variation on \f$\beta\f$ parameter.
+         * @return RVec<float> {nom, up, down} variations of the top \f$p_T\f$ reweighting value (absolute).
+         */
+        float eval(float TvsQCD, float pt);
+
+/*        float eval(RVec<float> Dijet_particleNet_TvsQCD, RVec<float> Dijet_pt);
+*/
+};
+#endif
